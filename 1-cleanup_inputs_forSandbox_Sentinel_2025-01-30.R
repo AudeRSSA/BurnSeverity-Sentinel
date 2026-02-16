@@ -14,10 +14,10 @@
   pre.days <- 200 # number of days prior to start date included
   post.days <- 100  # number of days following to end date included
   
-  histpath <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\sevSentinel"
+  histpath <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\Sentinel"
   
   # inputs 
-  shp.name <- "bf2025jan.shp" # shp name
+  shp.name <- "Burn_Severity_BF_January.shp" # shp name
   
   # read in shp
   shp.select <- st_read(here::here("fireSelection", shp.name), stringsAsFactors = FALSE) %>% 
@@ -37,10 +37,10 @@
       mutate(FIH_NUMBER = str_replace_all(FIH_NUMBER, " ", "")) %>%
       mutate(FIH_NUMBER = str_replace_all(FIH_NUMBER, "_", "")) %>%
       mutate(id = case_when(FIH_FIRE_T == "WF" & nchar(FIH_NUMBER) == 6 ~ 
-                                     paste0("BF", FIH_YEAR1, "-", FIH_NUMBER),
+                                     paste0("BF", FIH_YEAR1, month(FIH_DATE1, label = TRUE), "-", FIH_NUMBER),
                                    TRUE ~ FIH_NUMBER))%>%
       mutate(id = case_when(FIH_FIRE_T == "WF" & nchar(id) == 12 ~ 
-                              paste0(str_sub(id, end = 6), "-", str_sub(id, start = 7)),
+                              paste0(str_sub(id, end = 6), month(FIH_DATE1, label = TRUE), "-", str_sub(id, start = 7)),
                             TRUE ~ id)) 
     shp$id  
     st_write(shp, here::here("fireSelection", shp.name), append=FALSE)
