@@ -19,7 +19,7 @@ mtx <- c(-Inf, 0.3, 2,
          2.1, 2.7, 4, 
          2.7, Inf, 5)
 rclmat <- matrix(mtx, ncol=3, byrow=TRUE)
-mdir <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\sevSentinel\\xModels\\"
+mdir <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\Sentinel\\xModels\\"
 maxVals <- readRDS(paste0(mdir, "maxVals.sentinel"))
 
 mlist <- as.data.frame(list.files(paste0(mdir)), stringsAsFactors = FALSE)
@@ -307,7 +307,7 @@ for(j in 1:length(lshp)){
 
 shp <- left_join(dplyr::select(shp, BURNID), shp.select, by = "BURNID")
 shp <- filter(shp, BURNID %in% burns)
-shp.name <- str_split_fixed(here(), "sevSentinel/", 2)[,2]
+shp.name <- str_split_fixed(here(), "Sentinel/", 2)[,2]
 dir.create(here(v, "treatment_area"), showWarnings = FALSE)
 st_write(shp, here(v, "treatment_area", paste0(shp.name, "_treatmentArea.shp")), 
          append=FALSE, quiet = TRUE)
