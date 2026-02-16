@@ -11,7 +11,7 @@ use.heath <- "y"
 dates <- read.csv(here::here("inputs",  "clean_dates_edited.csv")) 
 colnames(dates)[1] <- "BURNID"
 dates<-   mutate(dates, BURNID = str_replace(BURNID, "_", ""), mapText = "") %>%
-  rename(burnName = NAME) %>%
+  rename(burnName = FIH_NAME) %>%
   mutate(pageNumber = paste0(BURNID, "_", burnName)) %>%
   dplyr::select(BURNID, pageNumber, mapText, burnName)
 
@@ -23,7 +23,7 @@ dates$pageNumber <- str_replace_all(dates$pageNumber, ",", "")
 
 dir.create(here("maps"), showWarnings = FALSE)
 
-mdir <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\sevSentinel\\xModels\\"
+mdir <- "Z:\\DEC\\Prescribed_Bushfire_Outcomes_2018-134\\DATA\\Working\\Sentinel\\xModels\\"
 shp <- st_read(paste0(mdir, "Template_AFED\\Template_AFED.shp"))[0,]
 burnt.shp <- shp #dplyr::select(shp, -BURNID)
 
@@ -75,7 +75,7 @@ shpf <- shpj %>% dplyr::select(BURNID, X1, X2, X3, X4, X5, X6, date) %>%
   #rbind(st_transform(shp.m, crs = crs(shp))) %>%
   left_join(df.txt, by = "BURNID")
 
-folder.name <- str_split_fixed(here(), "sevSentinel/", 2)[,2]
+folder.name <- str_split_fixed(here(), "Sentinel/", 2)[,2]
 #shpf$imLast <- NA
 
 csvs <- list.files(here("tifs"), pattern = "imgUsed.csv", recursive = TRUE, full.names = TRUE)
@@ -136,3 +136,4 @@ if (use.heath == "y"){
   }else{
   writeRaster(ouput.rst, here("maps", paste0(folder.name, "_noHeath_", Sys.Date(), ".tif")), format='GTiff', overwrite=TRUE)
 }
+
