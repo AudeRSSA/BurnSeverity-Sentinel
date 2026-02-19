@@ -101,7 +101,7 @@
     # check and correct date format
     shp$date <- as.Date(parse_date_time(shp$FIH_DATE1, c("ymd", "dmy")))
     # calculate start and end dates
-    shp <- shp %>% mutate(date_end = date + 60, im_strt = date - pre.days, im_end = date + post.days)
+    shp <- shp %>% mutate(date_end = date + 60, im_start = date - pre.days, im_end = date + post.days)
     
     shp.n <- dplyr::select(shp, BURNID, FIH_NAME, date, date_end, im_start, im_end) %>%
       na.omit()
